@@ -2,12 +2,16 @@ from flask import Flask, request, render_template, Response
 from app.opencv_streaming import VideoCamera
 from flask_socketio import SocketIO, emit
 from threading import Thread
+from flask_cors import CORS
 
 
 # Initialize the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Indaboski Bahose#'
 socketio = SocketIO(app)
+
+# CORS
+CORS(app)
 
 # thread
 thread = Thread()
