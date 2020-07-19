@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Video Streaming Demonstration</title>
+    <link rel="stylesheet" type="text/css" 
+      href="{{ url_for('static', filename='bulma.min.css') }}">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <div class="field has-addons">
+          <div class="control">
+            <input class="input" id="address" type="text" placeholder="Input Video Source">
+          </div>
+          <div class="control">
+            <a class="button is-info" id="sendUrl">
+              Stream
+            </a>
+          </div>
+        </div>
+
+        <h2 class="subtitle">
+          Video Streaming Demonstration
+        </h2>
+        <div id="video"></div>
+      </div>
+    </section>
+    <script type="text/javascript" 
+      src="{{ url_for('static', filename='jquery-min.js') }}"></script>
+    <script type="text/javascript" 
+      src="{{ url_for('static', filename='socket.io.js') }}"></script>
+    <script type="text/javascript">
+      $(function() {
+
+        const socket = io('http://' + document.domain + ':' + location.port + '/web', {
+          reconnection: false     // whether to reconnect automatically
+        });
+
+        socket.on( 'connect', function() {
+            console.log('Connected')
+        });
+
+        $('a#sendUrl')
+          .click(function() {
+
+            socket.emit('video feed', {
+              src: $('#address').val()
+            });
+
+          });
+
+        socket.on('stream', (data) => {
+          
+          $("#video")
+            .html('<img src="'+ data.image + '"/>');
+
+        });
+
+     });
+    </script>
+  </body>
+</html>
