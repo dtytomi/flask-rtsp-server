@@ -71,4 +71,4 @@ class VideoCamera(object):
 
             
     # cleanup the camera and close any open windows
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
