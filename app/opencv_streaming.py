@@ -1,6 +1,7 @@
 import os
 import cv2
 import math
+import time
 import base64
 import datetime
 import numpy as np
@@ -28,8 +29,14 @@ class VideoCamera(object):
 
         ReferenceFrame = None
 
+        frame_rate = 10
+        prev = 0
+
         #while loop captures
         while True:
+
+            time_elapsed = time.time() - prev
+
             # reads frames from a video
             grabbed, frames = self.video.read()
 
@@ -38,17 +45,21 @@ class VideoCamera(object):
                 print("Empty frame")
                 break
 
-            # Display frames in a window  
-            # cv2.imshow('video', frames) 
+            if time_elapsed > 1./frame_rate:
+                prev = time.time()
 
-            # Encode frame as jpeg
-            # encode OpenCV raw frame to jpg and displaying it
-            jpeg = cv2.imencode('.jpg', frames)[1].tobytes()
+                # Display frames in a window  
+                # cv2.imshow('video', frames) 
 
-            # Encode frame in base64 representation and remove
-            # utf-8 encoding
-            frame = base64.b64encode(jpeg).decode('utf-8')
-            return "data:image/jpeg;base64,{}".format(frame)
+                # Encode frame as jpeg
+                # encode OpenCV raw frame to jpg and displaying it
+                jpeg = cv2.imencode('.jpg', frames)[1].tobytes()
+
+                # Encode frame in base64 representation and remove
+                # utf-8 encoding
+                frame = base64.b64encode(jpeg).decode('utf-8')
+                
+                return "data:image/jpeg;base64,{}".format(frame)
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 print("Video detection halted.")
