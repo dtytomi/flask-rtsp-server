@@ -33,12 +33,28 @@
     <script type="text/javascript">
       $(function() {
 
-        const socket = io( location.protocol + '//' + location.host + ':' + location.port + '/web', {
+        const socket = io( window.location.protocol + '//' + document.domain + ':' + window.location.port + '/web', {
           reconnection: false     // whether to reconnect automatically
         });
 
         socket.on( 'connect', function() {
             console.log('Connected')
+        });
+
+        socket.on('disconnect', () => {
+          console.log('Disconnected');
+        });
+
+        socket.on('connect_error', (error) => {
+          console.log('Connect error! ' + error);
+        });
+
+        socket.on('connect_timeout', (error) => {
+          console.log('Connect timeout! ' + error);
+        });
+
+        socket.on('error', (error) => {
+          console.log('Error! ' + error);
         });
 
         $('a#sendUrl')
