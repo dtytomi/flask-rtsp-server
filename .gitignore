@@ -1,5 +1,3 @@
-so
-
 # Distribution / packaging
 opencv
 bin/
@@ -29,6 +27,7 @@ coverage.xml
 
 # Translations
 *.mo
+*.pyc
 
 # Mr Developer
 .mr.developer.cfg
