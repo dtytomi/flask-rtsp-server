@@ -33,7 +33,7 @@
     <script type="text/javascript">
       $(function() {
 
-        const socket = io('http://' + document.domain + ':' + location.port + '/web', {
+        const socket = io( location.protocol + '://' + document.domain + ':' + location.port + '/web', {
           reconnection: false     // whether to reconnect automatically
         });
 
